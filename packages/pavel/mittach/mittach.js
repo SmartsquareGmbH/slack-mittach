@@ -43,7 +43,11 @@ const datestring = formatDateToGerman(today);
 async function main(args) {
   const dishes = await getDishesForDay(cafeUrl, datestring);
   console.log(dishes);
-  return { body: `${dishes}` };
+  const body = {
+    "response_type": "in_channel",
+    "text": dishes
+  }
+  return { body: body };
 }
 
 exports.main = main

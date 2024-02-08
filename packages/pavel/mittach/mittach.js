@@ -25,7 +25,7 @@ async function getDishesForDay(url, datestring) {
     row.find("td").each((i, element) => {
       const innerHtml = $(element).html();
       const text = innerHtml
-        .replace(/<strong>(.*?)<\/strong>/g, "$1")
+        .replace(/<strong>(.*?)<\/strong>/g, "*$1*")
         .replace(/<br\s*\/?>/g, ", ")
         .trim();
       textContents.push(text);
@@ -41,13 +41,29 @@ const today = new Date();
 const datestring = formatDateToGerman(today);
 
 async function main(args) {
-  const dishes = await getDishesForDay(cafeUrl, datestring);
-  console.log(dishes);
+  const dishes = await getDishesForDay(cafeUrl, datestring);  
   const body = {
-    "response_type": "in_channel",
-    "text": dishes
-  }
+    response_type: "in_channel",
+    text: `Mittagsmenü ${datestring}`,
+    blocks: [
+      {
+        type: "header",
+        text: {
+          type: "plain_text",
+          text: `:knife_fork_plate: Mittagsmenü ${datestring}`,
+          emoji: true,
+        },
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: dishes,
+        },
+      },
+    ],
+  };
   return { body: body };
 }
 
-exports.main = main
+exports.main = main;

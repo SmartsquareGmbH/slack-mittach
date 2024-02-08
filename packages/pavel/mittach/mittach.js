@@ -1,10 +1,10 @@
-const axios = require("axios")
-const { format, getDay } = require("date-fns")
-const { de } = require("date-fns/locale")
-const cheerio = require("cheerio")
+const axios = require("axios");
+const { format, getDay } = require("date-fns");
+const { de } = require("date-fns/locale");
+const cheerio = require("cheerio");
 
 function formatDateToGerman(date) {
-  return format(date, "EEEE, d. MMMM yyyy", { locale: de })
+  return format(date, "EEEE, d. MMMM yyyy", { locale: de });
 }
 
 async function getDishesForDay(url, datestring) {
@@ -17,15 +17,18 @@ async function getDishesForDay(url, datestring) {
   const gericht2 = gericht1.next();
   const gericht3 = gericht2.next();
 
-  const rows = [gericht1, gericht2, gericht3]
+  const rows = [gericht1, gericht2, gericht3];
 
-  const dishes = []
+  const dishes = [];
   rows.forEach((row) => {
     const textContents = [];
     row.find("td").each((i, element) => {
-      const innerHtml = $(element).html()
-      const text = innerHtml.replace(/<strong>(.*?)<\/strong>/g, '$1').replace(/<br\s*\/?>/g, ', ').trim()
-      textContents.push(text)
+      const innerHtml = $(element).html();
+      const text = innerHtml
+        .replace(/<strong>(.*?)<\/strong>/g, "$1")
+        .replace(/<br\s*\/?>/g, ", ")
+        .trim();
+      textContents.push(text);
     });
     const dishText = textContents.join(": ");
     dishes.push(dishText);
@@ -33,16 +36,14 @@ async function getDishesForDay(url, datestring) {
   return dishes.join("\n");
 }
 
-const cafeUrl = "https://www.cafe-kriemelmann.de/speiseplan/"
-const today = new Date()
-const datestring = formatDateToGerman(today)
+const cafeUrl = "https://www.cafe-kriemelmann.de/speiseplan/";
+const today = new Date();
+const datestring = formatDateToGerman(today);
 
-function main(args) {
-  getDishesForDay(cafeUrl, datestring).then((dishes) => {
-    console.log(dishes)
-    return { "body": dishes }
-  });
+async function main(args) {
+  const dishes = await getDishesForDay(cafeUrl, datestring);
+  console.log(dishes);
+  return { body: `${dishes}` };
 }
 
 exports.main = main
-main()

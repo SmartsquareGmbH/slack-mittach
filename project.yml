@@ -2,4 +2,4 @@ packages:
   - name: pavel
     actions:
       - name: mittach
-        runtime: 'nodejs:default'
+        runtime: 'nodejs:18'

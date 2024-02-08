@@ -1,5 +1,5 @@
 packages:
-  - name: sample
+  - name: pavel
     actions:
-      - name: hello
+      - name: mittach
         runtime: 'nodejs:default'

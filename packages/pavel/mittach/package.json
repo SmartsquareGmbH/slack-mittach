@@ -1,0 +1,16 @@
+{
+  "name": "mittach",
+  "version": "1.0.0",
+  "description": "Mittach Slack App shows lunch menu for today",
+  "main": "mittach.js",
+  "scripts": {
+    "test": "jest --coverage --runInBand --forceExit --verbose false"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "axios": "^1.6.7",
+    "cheerio": "^1.0.0-rc.12",
+    "date-fns": "^3.3.1"
+  }
+}

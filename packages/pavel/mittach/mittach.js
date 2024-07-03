@@ -4,7 +4,7 @@ const { de } = require("date-fns/locale");
 const cheerio = require("cheerio");
 
 function formatDateToGerman(date) {
-  return format(date, "EEEE, d. MMMM yyyy", { locale: de });
+  return format(date, "EEEE, dd. MMMM yyyy", { locale: de });
 }
 
 async function getDishesForDay(url, datestring) {
@@ -27,6 +27,7 @@ async function getDishesForDay(url, datestring) {
       const text = innerHtml
         .replace(/<strong>(.*?)<\/strong>/g, "*$1*")
         .replace(/<br\s*\/?>/g, ", ")
+        .replace(/, \*/g, "*, ")
         .trim();
       textContents.push(text);
     });
@@ -63,7 +64,9 @@ async function main(args) {
       },
     ],
   };
-  return { body: body };
+  console.log(dishes);
+  console.log(body);
+  //return { body: body };
 }
-
-exports.main = main;
+main();
+//exports.main = main;

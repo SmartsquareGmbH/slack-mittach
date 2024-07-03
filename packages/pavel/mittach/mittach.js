@@ -64,9 +64,7 @@ async function main(args) {
       },
     ],
   };
-  console.log(dishes);
-  console.log(body);
-  //return { body: body };
+  return { body: body };
 }
 main();
-//exports.main = main;
+exports.main = main;
